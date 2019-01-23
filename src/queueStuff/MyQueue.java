@@ -4,7 +4,16 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class MyQueue<E> implements ALDAQueue<E>{
-
+	
+	private int totalCapacity;
+	private int currentCapacity;
+	private Node<E> first;
+	private Node<E> last;
+	
+	public MyQueue(int capacity) {
+		totalCapacity = capacity;
+	}
+	
 	@Override
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
@@ -13,7 +22,11 @@ public class MyQueue<E> implements ALDAQueue<E>{
 
 	@Override
 	public void add(E element) {
-		// TODO Auto-generated method stub
+		Node<E> n = new Node<E>();
+		n.value = element;
+		if(first==null) {
+			first = n;
+		}
 		
 	}
 
@@ -37,7 +50,9 @@ public class MyQueue<E> implements ALDAQueue<E>{
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		first = new Node<E>();
+		last = new Node<E>();
+		first.next = last;
 		
 	}
 
@@ -61,14 +76,13 @@ public class MyQueue<E> implements ALDAQueue<E>{
 
 	@Override
 	public int totalCapacity() {
-		// TODO Auto-generated method stub
-		return 0;
+		return totalCapacity;
 	}
 
 	@Override
 	public int currentCapacity() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return currentCapacity;
 	}
 
 	@Override
@@ -77,6 +91,12 @@ public class MyQueue<E> implements ALDAQueue<E>{
 		return 0;
 	}
 
-
+	private class Node<E>{
+		
+		E value;
+		Node<E> before;
+		Node<E> next;
+		
+	}
 
 }
