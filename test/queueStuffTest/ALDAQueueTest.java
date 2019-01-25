@@ -265,17 +265,17 @@ public class ALDAQueueTest {
 //		assertEquals(1, queue.discriminate(A_STRING));
 //		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
 //	}
-//
-//	@Test
-//	public void testDiscriminateOnLastElement() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add("B");
-//		queue.add("C");
-//		queue.add(A_STRING);
-//		assertEquals(1, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
-//	}
-//
+
+	@Test
+	public void testDiscriminateOnLastElement() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add("B");
+		queue.add("C");
+		queue.add(A_STRING);
+		assertEquals(1, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
+	}
+
 //	@Test
 //	public void testDiscriminateWithNoMatchingElements() {
 //		ALDAQueue<String> queue = createNewStringQueue();
@@ -285,18 +285,18 @@ public class ALDAQueueTest {
 //		assertEquals(0, queue.discriminate("D"));
 //		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[A, B, C]");
 //	}
-
-	@Test
-	public void testDiscriminateOnMultipleElements() {
-		ALDAQueue<String> queue = createNewStringQueue();
-		queue.add(A_STRING);
-		queue.add("B");
-		queue.add(A_STRING);
-		queue.add("C");
-		queue.add(A_STRING);
-		assertEquals(3, queue.discriminate(A_STRING));
-		testQueueProperties(queue, false, false, 5, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 5, "[B, C, A, A, A]");
-	}
+//
+//	@Test
+//	public void testDiscriminateOnMultipleElements() {
+//		ALDAQueue<String> queue = createNewStringQueue();
+//		queue.add(A_STRING);
+//		queue.add("B");
+//		queue.add(A_STRING);
+//		queue.add("C");
+//		queue.add(A_STRING);
+//		assertEquals(3, queue.discriminate(A_STRING));
+//		testQueueProperties(queue, false, false, 5, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 5, "[B, C, A, A, A]");
+//	}
 
 //	@Test
 //	public void testDiscriminateOnMultipleElementsOnly() {
@@ -348,21 +348,21 @@ public class ALDAQueueTest {
 //		createNewStringQueue().addAll(null);
 //	}
 //
-	@Test
-	public void testIteratorOnEmptyQueue() {
-		ALDAQueue<String> queue = createNewStringQueue();
-		Iterator<String> iter = queue.iterator();
-		assertFalse(iter.hasNext());
-	}
-
-	@Test(expected = NoSuchElementException.class)
-	public void testIteratorOnEmptyQueueMovingToFar() {
-		ALDAQueue<String> queue = createNewStringQueue();
-		Iterator<String> iter = queue.iterator();
-		assertFalse(iter.hasNext());
-		iter.next();
-	}
-
+//	@Test
+//	public void testIteratorOnEmptyQueue() {
+//		ALDAQueue<String> queue = createNewStringQueue();
+//		Iterator<String> iter = queue.iterator();
+//		assertFalse(iter.hasNext());
+//	}
+//
+//	@Test(expected = NoSuchElementException.class)
+//	public void testIteratorOnEmptyQueueMovingToFar() {
+//		ALDAQueue<String> queue = createNewStringQueue();
+//		Iterator<String> iter = queue.iterator();
+//		assertFalse(iter.hasNext());
+//		iter.next();
+//	}
+//
 //	@Test(expected = NoSuchElementException.class)
 //	public void testIterator() {
 //		ALDAQueue<String> queue = createNewStringQueue();
@@ -410,7 +410,7 @@ public class ALDAQueueTest {
 //		assertEquals((Integer) 8, queue2.remove());
 //		assertEquals((Integer) 9, queue1.remove());
 //	}
-//
+
 //	@Test
 //	public void testRandomOperations() {
 //		Random rnd = new Random();

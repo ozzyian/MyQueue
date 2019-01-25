@@ -12,29 +12,28 @@ public class MyQueue<E> implements ALDAQueue<E>{
 	private Node<E> first;
 	private Node<E> last;
 	
-//	public MyQueue() { 
-//		totalCapacity = 100; 
-//		currentCapacity = 100; 
-//		size = 0;
-//	}
 	
 	public MyQueue(int capacity) {
 		if(capacity <= 0) {
 			throw new IllegalArgumentException("Fel!");
 		}
+		this.first =  new Node<E>(null, null, null);
+		this.last =  new Node<E>(null, first, null);
+		first.next = last;
 		totalCapacity = capacity;
 		currentCapacity = capacity;
 		size = 0;
 	}
+	
 	
 	public String toString() {
 		String start = "[";
 		if(size == 0) {
 			start+= "]";
 		}
-		for(Node<E> temp=first; temp!=null; temp = temp.next) { 
+		for(Node<E> temp=first.next; temp!=last; temp = temp.next) { 
 
-			if(temp.next == null) { 
+			if(temp.next == last) { 
 				start+= temp.value + "]";
 			}else {
 				start+= temp.value + ", ";
@@ -49,18 +48,46 @@ public class MyQueue<E> implements ALDAQueue<E>{
 	public Iterator<E> iterator() {
 		
 		Iterator<E> it = new Iterator<E>(){
-			Node<E> current = first;	
+	
+			Node<E> current = first.next;
+			Node<E> previous = null;
+			Node<E> prePrevious = null;
+			
+			boolean removeOk = false;
 			@Override
 			public boolean hasNext() {
-				return current != null;
+				
+				return current!=last ;
 			}
 
 			@Override
 			public E next() {
-				E var = current.value;
+
+				
+				if(!hasNext()) {
+					throw new NoSuchElementException("Fel!");
+				}
+				E value = current.value;
+				prePrevious = previous;
+				previous = current;
 				current = current.next;
-				return var;
+				removeOk = false;
+				return value;
 			}
+			public void remove() {
+				if (previous == null || removeOk) {
+					throw new IllegalStateException();
+				}
+				if(prePrevious == null) {
+					first.next = current;
+				}else {
+					prePrevious.next = current;
+				}
+				size--;
+				currentCapacity++;
+				removeOk = true;
+			}
+
 			
 		};
 		return it;
@@ -77,15 +104,15 @@ public class MyQueue<E> implements ALDAQueue<E>{
 			throw new IllegalStateException("Fel!");
 		}
 		if(isEmpty()) {
-			Node<E> n = new Node<E>(element, null, null);
+			Node<E> n = new Node<E>(element, first, last);
 			currentCapacity--;
 			size++;
-			first = n;
-			last = n;
+			first.next = n;
+			last.before = n;
 		}else {
-			Node<E> n = new Node<E>(element, last, null);
-			last.next = n;
-			last = n;
+			Node<E> n = new Node<E>(element, last.before, last);
+			last.before.next = n;
+			last.before = n;
 			currentCapacity--;
 			size++;
 		}
@@ -102,10 +129,10 @@ public class MyQueue<E> implements ALDAQueue<E>{
 		if(isEmpty()) {
 			throw new NoSuchElementException("Fel!");
 		}
-		Node<E> temp = first;
+		Node<E> temp = first.next;
 		if(size == 1) {
-			first = null;
-			last = null;
+			first.next = last;
+			last.before = first;
 			
 		} else {
 			first.next.before = null;
@@ -123,13 +150,15 @@ public class MyQueue<E> implements ALDAQueue<E>{
 			return null;
 			
 		else
-			return first.value;
+			return first.next.value;
 	}
 
 	@Override
 	public void clear() {
-		first = null; 
-		last = null;
+		first =  new Node<E>(null, null, null);
+		last =  new Node<E>(null, first, null);
+		first.next = last;
+	
 		size = 0; 
 		currentCapacity = totalCapacity; 
 		
@@ -171,57 +200,44 @@ public class MyQueue<E> implements ALDAQueue<E>{
 
 	@Override
 	public int discriminate(E e) {
-		System.out.println(this);
+		
+		int found  = 0;
 		if(e==null) {
 			throw new NullPointerException("Fel!");
 		}
-		int found = 0;
-		int count = 0;
-		Iterator<E> it = iterator();
-		while(it.hasNext()) {
-			count ++;
-			
-			if(e == it.next() || e.equals(it.next())) {
-				found++;
-				
+		System.out.println(this);
+		if(!isEmpty()) {
+			Iterator<E> it = iterator();
+			E value;
+			while(it.hasNext()) {
+				value = it.next();
+				if(value == e || value.equals(e)) {
+					found++;
+					it.remove();
+					System.out.println(this);
+					
+					
+					
+				}
 				
 			}
+			if(found>0) {
+				for(int i=0; i<found; i++) {
+					System.out.println(found);
+					System.out.println(size +" "  + currentCapacity);
+					add(e);
+					System.out.println(size +" "  + currentCapacity);
+				}
+			}
+			
+			
 		}
+			
 		
-		System.out.println(count);
+		
+		System.out.println(this);
 		return found;
-//		int count= 0;
-//		if(!isEmpty()) {
-//			
-//			if ((first.value == e || first.value.equals(e)) && size!= 1) {
-//				found++;
-//				count++;
-//				remove();
-//				add(e);
-//				
-//			}
-//			Node<E> temp = first;
-//			while(count < size) {
-//				
-//				System.out.println(size);
-//				count++;
-//				if(temp.value==e || temp.value.equals(e)) {
-//					System.out.println("found");
-//					found++;
-//					if(temp.next != null) {
-//						temp.next.before = temp.before;
-//						temp.before.next = temp.next;
-//						size--;
-//						currentCapacity++;
-//						add(e);
-//					}
-//				}
-//				temp = temp.next;
-//				
-//			}
-//			
-//		
-//		}
+
 		
 	}
 
