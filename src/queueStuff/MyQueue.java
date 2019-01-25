@@ -205,21 +205,20 @@ public class MyQueue<E> implements ALDAQueue<E>{
 		if(e==null) {
 			throw new NullPointerException("Fel!");
 		}
+		Node<E> tempBefore;
+		Node<E> tempNext;
 		System.out.println(this);
 		if(!isEmpty()) {
-			Iterator<E> it = iterator();
-			E value;
-			while(it.hasNext()) {
-				value = it.next();
-				if(value == e || value.equals(e)) {
+			for(Node<E> temp = first.next; temp!=last; temp = temp.next) {
+				if(temp.value == e || temp.value.equals(e)) {
 					found++;
-					it.remove();
-					System.out.println(this);
-					
-					
-					
+					tempBefore = temp.before;
+					tempNext = temp.next;
+					tempBefore.next = tempNext;
+					tempNext.before = tempBefore;
+					size--;
+					currentCapacity++;
 				}
-				
 			}
 			if(found>0) {
 				for(int i=0; i<found; i++) {
