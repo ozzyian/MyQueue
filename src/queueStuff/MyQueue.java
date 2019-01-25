@@ -50,10 +50,6 @@ public class MyQueue<E> implements ALDAQueue<E>{
 		Iterator<E> it = new Iterator<E>(){
 	
 			Node<E> current = first.next;
-			Node<E> previous = null;
-			Node<E> prePrevious = null;
-			
-			boolean removeOk = false;
 			@Override
 			public boolean hasNext() {
 				
@@ -68,26 +64,9 @@ public class MyQueue<E> implements ALDAQueue<E>{
 					throw new NoSuchElementException("Fel!");
 				}
 				E value = current.value;
-				prePrevious = previous;
-				previous = current;
 				current = current.next;
-				removeOk = false;
 				return value;
 			}
-			public void remove() {
-				if (previous == null || removeOk) {
-					throw new IllegalStateException();
-				}
-				if(prePrevious == null) {
-					first.next = current;
-				}else {
-					prePrevious.next = current;
-				}
-				size--;
-				currentCapacity++;
-				removeOk = true;
-			}
-
 			
 		};
 		return it;
@@ -120,7 +99,13 @@ public class MyQueue<E> implements ALDAQueue<E>{
 
 	@Override
 	public void addAll(Collection<? extends E> c) {
-		// TODO Auto-generated method stub
+		if(c.isEmpty()) {
+			throw new NullPointerException("Fel!");
+		}
+		
+		for(E value : c) {
+			add(value);
+		}
 		
 	}
 
@@ -207,7 +192,7 @@ public class MyQueue<E> implements ALDAQueue<E>{
 		}
 		Node<E> tempBefore;
 		Node<E> tempNext;
-		System.out.println(this);
+
 		if(!isEmpty()) {
 			for(Node<E> temp = first.next; temp!=last; temp = temp.next) {
 				if(temp.value == e || temp.value.equals(e)) {
@@ -222,27 +207,23 @@ public class MyQueue<E> implements ALDAQueue<E>{
 			}
 			if(found>0) {
 				for(int i=0; i<found; i++) {
-					System.out.println(found);
-					System.out.println(size +" "  + currentCapacity);
+
 					add(e);
-					System.out.println(size +" "  + currentCapacity);
+					
 				}
 			}
 			
 			
 		}
 			
-		
-		
-		System.out.println(this);
 		return found;
 
 		
 	}
 
-	 class Node<E>{
+	 private static class Node<E>{
 		
-		 E value;
+		E value;
 		Node<E> before;
 		Node<E> next;
 		public Node(E v, Node<E> b, Node<E> n) {

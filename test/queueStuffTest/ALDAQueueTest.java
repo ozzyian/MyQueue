@@ -239,32 +239,32 @@ public class ALDAQueueTest {
 		testQueueProperties(queue, true, false, 0, DEFAULT_CAPACITY, DEFAULT_CAPACITY, "[]");
 	}
 
-//	@Test
-//	public void testDiscriminateOnEmptyQueue() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		assertEquals(0, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, true, false, 0, DEFAULT_CAPACITY, DEFAULT_CAPACITY);
-//	}
-//
-//	@Test
-//	public void testDiscriminateOnFirstElement() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add(A_STRING);
-//		queue.add("B");
-//		queue.add("C");
-//		assertEquals(1, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
-//	}
-//
-//	@Test
-//	public void testDiscriminateOnMiddleElement() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add("B");
-//		queue.add(A_STRING);
-//		queue.add("C");
-//		assertEquals(1, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
-//	}
+	@Test
+	public void testDiscriminateOnEmptyQueue() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		assertEquals(0, queue.discriminate(A_STRING));
+		testQueueProperties(queue, true, false, 0, DEFAULT_CAPACITY, DEFAULT_CAPACITY);
+	}
+
+	@Test
+	public void testDiscriminateOnFirstElement() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add(A_STRING);
+		queue.add("B");
+		queue.add("C");
+		assertEquals(1, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
+	}
+
+	@Test
+	public void testDiscriminateOnMiddleElement() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add("B");
+		queue.add(A_STRING);
+		queue.add("C");
+		assertEquals(1, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
+	}
 
 	@Test
 	public void testDiscriminateOnLastElement() {
@@ -276,202 +276,202 @@ public class ALDAQueueTest {
 		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[B, C, A]");
 	}
 
-//	@Test
-//	public void testDiscriminateWithNoMatchingElements() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add("A");
-//		queue.add("B");
-//		queue.add("C");
-//		assertEquals(0, queue.discriminate("D"));
-//		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[A, B, C]");
-//	}
-//
-//	@Test
-//	public void testDiscriminateOnMultipleElements() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add(A_STRING);
-//		queue.add("B");
-//		queue.add(A_STRING);
-//		queue.add("C");
-//		queue.add(A_STRING);
-//		assertEquals(3, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 5, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 5, "[B, C, A, A, A]");
-//	}
+	@Test
+	public void testDiscriminateWithNoMatchingElements() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add("A");
+		queue.add("B");
+		queue.add("C");
+		assertEquals(0, queue.discriminate("D"));
+		testQueueProperties(queue, false, false, 3, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 3, "[A, B, C]");
+	}
 
-//	@Test
-//	public void testDiscriminateOnMultipleElementsOnly() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		for (int n = 0; n < 4; n++) {
-//			queue.add(new String(A_STRING));
-//		}
-//		assertEquals(4, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 4, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 4, "[A, A, A, A]");
-//	}
-//
-//	@Test
-//	public void testDiscriminateOnMultipleElementsNearbyEachother() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.add(A_STRING);
-//		queue.add(A_STRING);
-//		queue.add("B");
-//		queue.add(A_STRING);
-//		queue.add(A_STRING);
-//		queue.add("C");
-//		queue.add(A_STRING);
-//		queue.add(A_STRING);
-//		assertEquals(6, queue.discriminate(A_STRING));
-//		testQueueProperties(queue, false, false, 8, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 8, "[B, C, A, A, A, A, A, A]");
-//	}
-//
-//	@Test(expected = NullPointerException.class)
-//	public void testDiscriminateNull() {
-//		createNewStringQueue().discriminate(null);
-//	}
-//
-//	@Test
-//	public void testAddAll() {
-//		Collection<String> oracle = new LinkedList<>(Arrays.asList(STRINGS));
-//		Collection<String> source = new HashSet<>(oracle);
-//
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		queue.addAll(source);
-//
-//		while (!queue.isEmpty()) {
-//			assertTrue(oracle.remove(queue.remove()));
-//		}
-//
-//		assertTrue(oracle.isEmpty());
-//	}
-//
-//	@Test(expected = NullPointerException.class)
-//	public void testAddAllNull() {
-//		createNewStringQueue().addAll(null);
-//	}
-//
-//	@Test
-//	public void testIteratorOnEmptyQueue() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		Iterator<String> iter = queue.iterator();
-//		assertFalse(iter.hasNext());
-//	}
-//
-//	@Test(expected = NoSuchElementException.class)
-//	public void testIteratorOnEmptyQueueMovingToFar() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		Iterator<String> iter = queue.iterator();
-//		assertFalse(iter.hasNext());
-//		iter.next();
-//	}
-//
-//	@Test(expected = NoSuchElementException.class)
-//	public void testIterator() {
-//		ALDAQueue<String> queue = createNewStringQueue();
-//		for (String s : STRINGS) {
-//			queue.add(s);
-//		}
-//		Iterator<String> iter = queue.iterator();
-//		for (String s : STRINGS) {
-//			assertTrue(iter.hasNext());
-//			assertEquals(s, iter.next());
-//		}
-//		assertFalse(iter.hasNext());
-//		iter.next();
-//	}
-//
-//	@Test
-//	public void testTwoQueuesInParallel() {
-//		ALDAQueue<Integer> queue1 = createNewIntegerQueue();
-//		ALDAQueue<Integer> queue2 = createNewIntegerQueue();
-//
-//		queue1.add(1);
-//		queue2.add(2);
-//		queue1.add(3);
-//		queue1.add(4);
-//		queue2.add(5);
-//		queue2.add(6);
-//		queue1.add(7);
-//		queue2.add(8);
-//		queue1.add(9);
-//
-//		assertEquals(5, queue1.size());
-//		assertEquals(4, queue2.size());
-//
-//		for (Integer i : queue2) {
-//			assertTrue(i > 1 && i < 9);
-//		}
-//
-//		assertEquals((Integer) 1, queue1.remove());
-//		assertEquals((Integer) 2, queue2.remove());
-//		assertEquals((Integer) 3, queue1.remove());
-//		assertEquals((Integer) 5, queue2.remove());
-//		assertEquals((Integer) 6, queue2.remove());
-//		assertEquals((Integer) 4, queue1.remove());
-//		assertEquals((Integer) 7, queue1.remove());
-//		assertEquals((Integer) 8, queue2.remove());
-//		assertEquals((Integer) 9, queue1.remove());
-//	}
+	@Test
+	public void testDiscriminateOnMultipleElements() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add(A_STRING);
+		queue.add("B");
+		queue.add(A_STRING);
+		queue.add("C");
+		queue.add(A_STRING);
+		assertEquals(3, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 5, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 5, "[B, C, A, A, A]");
+	}
 
-//	@Test
-//	public void testRandomOperations() {
-//		Random rnd = new Random();
-//		final int CAPACITY = 10;
-//
-//		ALDAQueue<String> queue = createNewQueue(CAPACITY);
-//		Queue<String> oracle = new LinkedList<>();
-//		for (int n = 0; n < 1000; n++) {
-//			switch (rnd.nextInt(15)) {
-//			case 0:
-//			case 1:
-//			case 2:
-//			case 3:
-//			case 4:
-//				if (!queue.isFull()) {
-//					String str = "" + rnd.nextInt(CAPACITY);
-//					queue.add(str);
-//					oracle.add(str);
-//				}
-//				break;
-//			case 5:
-//			case 6:
-//			case 7:
-//			case 8:
-//			case 9:
-//				if (!queue.isEmpty()) {
-//					assertEquals(oracle.remove(), queue.remove());
-//				}
-//				break;
-//			case 10:
-//				while (!queue.isFull()) {
-//					String str = "" + rnd.nextInt(CAPACITY);
-//					queue.add(str);
-//					oracle.add(str);
-//				}
-//				break;
-//			case 11:
-//				queue.clear();
-//				oracle.clear();
-//				break;
-//			case 12:
-//				if (!queue.isEmpty()) {
-//					String str = "" + rnd.nextInt(CAPACITY);
-//					int count = queue.discriminate(str);
-//					for (int m = 0; m < count; m++) {
-//						assertTrue(oracle.remove(str));
-//					}
-//					for (int m = 0; m < count; m++) {
-//						oracle.add(str);
-//					}
-//				}
-//				break;
-//			case 13:
-//			case 14:
-//				// Left if we need more later
-//			}
-//
-//			testQueueProperties(queue, oracle.isEmpty(), oracle.size() == CAPACITY, oracle.size(), CAPACITY, CAPACITY
-//					- oracle.size(), oracle.toString());
-//		}
-//
-//	}
+	@Test
+	public void testDiscriminateOnMultipleElementsOnly() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		for (int n = 0; n < 4; n++) {
+			queue.add(new String(A_STRING));
+		}
+		assertEquals(4, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 4, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 4, "[A, A, A, A]");
+	}
+
+	@Test
+	public void testDiscriminateOnMultipleElementsNearbyEachother() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.add(A_STRING);
+		queue.add(A_STRING);
+		queue.add("B");
+		queue.add(A_STRING);
+		queue.add(A_STRING);
+		queue.add("C");
+		queue.add(A_STRING);
+		queue.add(A_STRING);
+		assertEquals(6, queue.discriminate(A_STRING));
+		testQueueProperties(queue, false, false, 8, DEFAULT_CAPACITY, DEFAULT_CAPACITY - 8, "[B, C, A, A, A, A, A, A]");
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testDiscriminateNull() {
+		createNewStringQueue().discriminate(null);
+	}
+
+	@Test
+	public void testAddAll() {
+		Collection<String> oracle = new LinkedList<>(Arrays.asList(STRINGS));
+		Collection<String> source = new HashSet<>(oracle);
+
+		ALDAQueue<String> queue = createNewStringQueue();
+		queue.addAll(source);
+
+		while (!queue.isEmpty()) {
+			assertTrue(oracle.remove(queue.remove()));
+		}
+
+		assertTrue(oracle.isEmpty());
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testAddAllNull() {
+		createNewStringQueue().addAll(null);
+	}
+
+	@Test
+	public void testIteratorOnEmptyQueue() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		Iterator<String> iter = queue.iterator();
+		assertFalse(iter.hasNext());
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void testIteratorOnEmptyQueueMovingToFar() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		Iterator<String> iter = queue.iterator();
+		assertFalse(iter.hasNext());
+		iter.next();
+	}
+
+	@Test(expected = NoSuchElementException.class)
+	public void testIterator() {
+		ALDAQueue<String> queue = createNewStringQueue();
+		for (String s : STRINGS) {
+			queue.add(s);
+		}
+		Iterator<String> iter = queue.iterator();
+		for (String s : STRINGS) {
+			assertTrue(iter.hasNext());
+			assertEquals(s, iter.next());
+		}
+		assertFalse(iter.hasNext());
+		iter.next();
+	}
+
+	@Test
+	public void testTwoQueuesInParallel() {
+		ALDAQueue<Integer> queue1 = createNewIntegerQueue();
+		ALDAQueue<Integer> queue2 = createNewIntegerQueue();
+
+		queue1.add(1);
+		queue2.add(2);
+		queue1.add(3);
+		queue1.add(4);
+		queue2.add(5);
+		queue2.add(6);
+		queue1.add(7);
+		queue2.add(8);
+		queue1.add(9);
+
+		assertEquals(5, queue1.size());
+		assertEquals(4, queue2.size());
+
+		for (Integer i : queue2) {
+			assertTrue(i > 1 && i < 9);
+		}
+
+		assertEquals((Integer) 1, queue1.remove());
+		assertEquals((Integer) 2, queue2.remove());
+		assertEquals((Integer) 3, queue1.remove());
+		assertEquals((Integer) 5, queue2.remove());
+		assertEquals((Integer) 6, queue2.remove());
+		assertEquals((Integer) 4, queue1.remove());
+		assertEquals((Integer) 7, queue1.remove());
+		assertEquals((Integer) 8, queue2.remove());
+		assertEquals((Integer) 9, queue1.remove());
+	}
+
+	@Test
+	public void testRandomOperations() {
+		Random rnd = new Random();
+		final int CAPACITY = 10;
+
+		ALDAQueue<String> queue = createNewQueue(CAPACITY);
+		Queue<String> oracle = new LinkedList<>();
+		for (int n = 0; n < 1000; n++) {
+			switch (rnd.nextInt(15)) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				if (!queue.isFull()) {
+					String str = "" + rnd.nextInt(CAPACITY);
+					queue.add(str);
+					oracle.add(str);
+				}
+				break;
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+				if (!queue.isEmpty()) {
+					assertEquals(oracle.remove(), queue.remove());
+				}
+				break;
+			case 10:
+				while (!queue.isFull()) {
+					String str = "" + rnd.nextInt(CAPACITY);
+					queue.add(str);
+					oracle.add(str);
+				}
+				break;
+			case 11:
+				queue.clear();
+				oracle.clear();
+				break;
+			case 12:
+				if (!queue.isEmpty()) {
+					String str = "" + rnd.nextInt(CAPACITY);
+					int count = queue.discriminate(str);
+					for (int m = 0; m < count; m++) {
+						assertTrue(oracle.remove(str));
+					}
+					for (int m = 0; m < count; m++) {
+						oracle.add(str);
+					}
+				}
+				break;
+			case 13:
+			case 14:
+				// Left if we need more later
+			}
+
+			testQueueProperties(queue, oracle.isEmpty(), oracle.size() == CAPACITY, oracle.size(), CAPACITY, CAPACITY
+					- oracle.size(), oracle.toString());
+		}
+
+	}
 
 }
